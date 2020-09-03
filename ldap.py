@@ -1,4 +1,4 @@
-import ldap3
+import json, ldap3
 
 class LDAP():
     _server:ldap3.Server
@@ -15,8 +15,13 @@ class LDAP():
             return(entry.entry_attributes_as_dict for entry in ldap.entries)
 
 test = LDAP()
-groups = test.search("ou=group,dc=sanger,dc=ac,dc=uk", "(objectClass=sangerHumgenProjectGroup)", ldap3.LEVEL, ['cn', 'memberUid'])
-print(groups)
-for group in groups:
-    print(group)
-    users = test.search("ou=people,dc=sanger,dc=ac,dc=uk", "(uid={g})".format(g=group), ldap3.LEVEL, ldap3.ALL_ATTRIBUTES)
+groups = test.search("ou=group,dc=sanger,dc=ac,dc=uk", "(objectClass=sangerHumgenProjectGroup)",
+ ldap3.LEVEL, ['cn', 'memberUid'])
+
+with open('output-file.json', 'w') as file:
+    str = "["
+    for group in groups:
+        group_str = json.dumps(group)
+        str += group_str + ","
+    str = str.rstrip(',') + "]"
+    file.write(str)
