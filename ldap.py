@@ -18,7 +18,7 @@ test = LDAP()
 groups = test.search("ou=group,dc=sanger,dc=ac,dc=uk", "(objectClass=sangerHumgenProjectGroup)",
  ldap3.LEVEL, ['cn', 'memberUid'])
 
-with open('output-file.json', 'w') as file:
+with open('sync/output-file.json', 'w') as file:
     str = "["
     for group in groups:
         group_str = json.dumps(group)
