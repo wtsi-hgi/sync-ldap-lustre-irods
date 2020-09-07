@@ -20,8 +20,11 @@ groups = test.search("ou=group,dc=sanger,dc=ac,dc=uk", "(objectClass=sangerHumge
 
 with open('sync/ldap-humgen-groups-users.json', 'w') as file:
     str = "["
+
     for group in groups:
-        group_str = json.dumps(group)
+        group_str = json.dumps(group, sort_keys=True, indent=4)
+        group_str = group_str.replace('"cn"', '"humgen_group"')
         str += group_str + ","
+
     str = str.rstrip(',') + "]"
     file.write(str)
