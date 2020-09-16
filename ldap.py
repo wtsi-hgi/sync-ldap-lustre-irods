@@ -19,12 +19,12 @@ groups = test.search("ou=group,dc=sanger,dc=ac,dc=uk", "(objectClass=sangerHumge
  ldap3.LEVEL, ['cn', 'memberUid'])
 
 with open('sync/ldap-humgen-groups-users.json', 'w') as file:
-    str = "["
+    str = '{"groups":['
 
     for group in groups:
         group_str = json.dumps(group, sort_keys=True, indent=4)
         group_str = group_str.replace('"cn"', '"humgen_group"')
         str += group_str + ","
 
-    str = str.rstrip(',') + "]"
+    str = str.rstrip(',') + "]}"
     file.write(str)
